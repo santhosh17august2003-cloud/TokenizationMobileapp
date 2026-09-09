@@ -75,5 +75,6 @@ def main(page: ft.Page) -> None:
 
 
 if __name__ == "__main__":
-    patch_flet_desktop_cache()
+    if os.name == "nt":
+        patch_flet_desktop_cache()
     ft.run(main)

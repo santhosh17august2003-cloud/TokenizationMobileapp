@@ -72,6 +72,22 @@ python main.py
 The first tokenizer or embedding run may take time while Hugging Face downloads the selected model into the local `.cache/huggingface` directory.
 Flet's desktop client is also cached locally under `.runtime-home/.flet` so it does not need write access to `C:\Users\Admin\.flet`.
 
+## Build Android APK
+
+The Flet UI is responsive for phone screens. Install Flet and Android Studio with the Android SDK, then run:
+
+```bash
+build_android.bat
+```
+
+Or run the equivalent command directly:
+
+```bash
+flet build apk
+```
+
+The included `build_android.bat` temporarily uses the lightweight `mobile_requirements.txt` list during packaging and restores the desktop `requirements.txt` afterward. The APK is generated under `build/apk`.
+
 ## Project Structure
 
 ```text

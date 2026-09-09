@@ -205,7 +205,7 @@ def build_main_page(page: ft.Page) -> None:
     page.expand = True
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = ft.Colors.BLUE_GREY_50
-    page.padding = 24
+    page.padding = 12
     page.horizontal_alignment = ft.CrossAxisAlignment.STRETCH
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.scroll = ft.ScrollMode.AUTO
@@ -224,7 +224,7 @@ def build_main_page(page: ft.Page) -> None:
     word_input = ft.TextField(
         label="Enter a word",
         hint_text="Enter 3-letter word",
-        width=280,
+        expand=True,
         max_length=3,
         autofocus=True,
         border_radius=8,
@@ -425,7 +425,7 @@ def build_main_page(page: ft.Page) -> None:
                 controls=[
                     ft.Text(
                         "Miniature of very small LLM",
-                        size=26,
+                        size=24,
                         weight=ft.FontWeight.BOLD,
                         text_align=ft.TextAlign.CENTER,
                     ),
@@ -435,8 +435,12 @@ def build_main_page(page: ft.Page) -> None:
                         color=ft.Colors.BLUE_GREY_700,
                         text_align=ft.TextAlign.CENTER,
                     ),
-                    word_input,
+                    ft.Container(
+                        width=float("inf"),
+                        content=word_input,
+                    ),
                     ft.Row(
+                        wrap=True,
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=8,
                         controls=[
@@ -456,7 +460,7 @@ def build_main_page(page: ft.Page) -> None:
                     ),
                     status_text,
                     ft.Container(
-                        width=500,
+                        width=float("inf"),
                         bgcolor=ft.Colors.WHITE,
                         border=ft.Border.all(1, ft.Colors.BLUE_GREY_100),
                         border_radius=8,
