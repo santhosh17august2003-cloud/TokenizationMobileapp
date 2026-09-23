@@ -55,13 +55,7 @@ class Database:
 
     def initialize(self) -> None:
         try:
-            with self._server_connection() as conn:
-                with conn.cursor() as cursor:
-                    cursor.execute(
-                        f"CREATE DATABASE IF NOT EXISTS `{self.settings.database}`"
-                    )
-                conn.commit()
-
+            # Connect directly to the database (Aiven pre-creates it as 'defaultdb')
             with self._database_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
@@ -95,7 +89,7 @@ class Database:
                 raise DatabaseError(
                     "MySQL login failed. Set MYSQL_USER and MYSQL_PASSWORD in .env."
                 ) from exc
-            raise DatabaseError("Could not initialize the MySQL database.") from exc
+            raise DatabaseError(f"Could not initialize the MySQL database: {exc}") from exc
 
     def create_user(self, email: str, password_hash: str) -> int:
         try:
