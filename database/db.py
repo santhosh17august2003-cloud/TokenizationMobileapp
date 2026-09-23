@@ -41,6 +41,8 @@ class Database:
             user=self.settings.user,
             password=self.settings.password,
             ssl_disabled=False,
+            ssl_verify_cert=False,
+            ssl_verify_identity=False,
         )
 
     def _database_connection(self):
@@ -51,6 +53,8 @@ class Database:
             password=self.settings.password,
             database=self.settings.database,
             ssl_disabled=False,
+            ssl_verify_cert=False,
+            ssl_verify_identity=False,
         )
 
     def initialize(self) -> None:
