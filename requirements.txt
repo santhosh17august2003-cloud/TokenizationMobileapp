@@ -4,12 +4,4 @@ fastapi
 uvicorn>=0.20.0
 mysql-connector-python>=9.0.0
 python-dotenv>=1.0.1
-torch>=2.3.0
-transformers>=4.44.0
 PyJWT>=2.9.0
-# Optional hardware integrations:
-# pyserial>=3.5
-# pyrealsense2
-
-
-
