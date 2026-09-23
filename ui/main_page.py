@@ -184,6 +184,10 @@ from __future__ import annotations
 
 import flet as ft
 
+# Flet 1.x removed ElevatedButton — patch it back as FilledButton
+if not hasattr(ft, "ElevatedButton"):
+    ft.ElevatedButton = getattr(ft, "FilledButton", ft.TextButton)
+
 from auth.auth_service import (
     AuthenticationError,
     create_access_token,
