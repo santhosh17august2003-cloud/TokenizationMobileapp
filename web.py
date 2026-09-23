@@ -2,8 +2,9 @@ import os
 import flet as ft
 import flet.fastapi as flet_fastapi
 
-if not hasattr(ft, "ElevatedButton") and hasattr(ft, "FilledButton"):
-    ft.ElevatedButton = ft.FilledButton
+# Flet 1.x compatibility: ElevatedButton was removed, replaced by FilledButton
+if not hasattr(ft, "ElevatedButton"):
+    ft.ElevatedButton = getattr(ft, "FilledButton", ft.TextButton)
 
 from ui.main_page import build_main_page
 
