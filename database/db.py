@@ -64,6 +64,16 @@ class Database:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         """
+                        CREATE TABLE IF NOT EXISTS users (
+                            id INT AUTO_INCREMENT PRIMARY KEY,
+                            email VARCHAR(255) NOT NULL UNIQUE,
+                            password_hash VARCHAR(255) NOT NULL,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        )
+                        """
+                    )
+                    cursor.execute(
+                        """
                         CREATE TABLE IF NOT EXISTS tokenization_history (
                             id INT AUTO_INCREMENT PRIMARY KEY,
                             request_id CHAR(36) NOT NULL,
@@ -79,7 +89,47 @@ class Database:
                     )
                 conn.commit()
         except Error as exc:
+            if getattr(exc, "errno", None) == 1045:
+                raise DatabaseError(
+                    "MySQL login failed. Set MYSQL_USER and MYSQL_PASSWORD in .env."
+                ) from exc
             raise DatabaseError("Could not initialize the MySQL database.") from exc
+
+    def create_user(self, email: str, password_hash: str) -> int:
+        try:
+            with self._database_connection() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(
+                        "INSERT INTO users (email, password_hash) VALUES (%s, %s)",
+                        (email, password_hash),
+                    )
+                    user_id = cursor.lastrowid
+                conn.commit()
+            return int(user_id)
+        except Error as exc:
+            if getattr(exc, "errno", None) == 1062:
+                raise DatabaseError("An account with this email already exists.") from exc
+            if getattr(exc, "errno", None) == 1045:
+                raise DatabaseError(
+                    "MySQL login failed. Set MYSQL_USER and MYSQL_PASSWORD in .env."
+                ) from exc
+            raise DatabaseError("Could not create the account.") from exc
+
+    def get_user(self, email: str):
+        try:
+            with self._database_connection() as conn:
+                with conn.cursor(dictionary=True) as cursor:
+                    cursor.execute(
+                        "SELECT id, email, password_hash FROM users WHERE email = %s",
+                        (email,),
+                    )
+                    return cursor.fetchone()
+        except Error as exc:
+            if getattr(exc, "errno", None) == 1045:
+                raise DatabaseError(
+                    "MySQL login failed. Set MYSQL_USER and MYSQL_PASSWORD in .env."
+                ) from exc
+            raise DatabaseError("Could not retrieve the account.") from exc
 
     def save_history(self, input_word: str, embeddings) -> None:
         request_id = str(uuid4())

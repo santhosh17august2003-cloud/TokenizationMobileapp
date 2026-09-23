@@ -46,3 +46,27 @@ class TokenizerService:
             TokenizedToken(token=token, token_id=int(token_id))
             for token, token_id in zip(tokens, token_ids)
         ]
+
+    def tokenize_characters(self, text: str) -> list[TokenizedToken]:
+        character_tokens = []
+
+        try:
+            for character in text:
+                encoded = self.tokenizer(
+                    character,
+                    add_special_tokens=False,
+                    return_attention_mask=False,
+                    return_token_type_ids=False,
+                )
+                token_ids = encoded["input_ids"]
+                if not token_ids:
+                    continue
+                character_tokens.append(
+                    TokenizedToken(token=character, token_id=int(token_ids[0]))
+                )
+        except Exception as exc:
+            raise TokenizerServiceError(
+                "Character tokenization failed for this input."
+            ) from exc
+
+        return character_tokens

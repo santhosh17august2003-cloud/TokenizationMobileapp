@@ -26,6 +26,7 @@ class ModelSettings:
     hf_home: str
 
 
+
 def get_database_settings() -> DatabaseSettings:
     return DatabaseSettings(
         host=os.getenv("MYSQL_HOST", "localhost"),
@@ -42,3 +43,4 @@ def get_model_settings() -> ModelSettings:
         embedding_model=os.getenv("EMBEDDING_MODEL", "distilbert-base-uncased"),
         hf_home=os.getenv("HF_HOME", ".cache/huggingface"),
     )
+

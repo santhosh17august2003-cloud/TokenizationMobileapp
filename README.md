@@ -1,6 +1,6 @@
 # NLP Tokenization Demo
 
-A local desktop application built with Python and Flet for demonstrating how a real NLP tokenizer produces tokens and token IDs, and how a real embedding model produces embedding vectors.
+A web application built with Python and Flet for demonstrating how a real NLP tokenizer produces tokens and token IDs, and how a real embedding model produces embedding vectors.
 
 ## Features
 
@@ -37,9 +37,10 @@ MYSQL_DATABASE=tokenization_db
 TOKENIZER_MODEL=distilbert-base-uncased
 EMBEDDING_MODEL=distilbert-base-uncased
 HF_HOME=.cache/huggingface
+JWT_SECRET_KEY=replace_with_a_long_random_secret
 ```
 
-Do not commit real database credentials.
+Do not commit real database credentials or the JWT secret.
 
 ## MySQL Database
 
@@ -63,36 +64,26 @@ CREATE TABLE IF NOT EXISTS tokenization_history (
 );
 ```
 
-## Run
+## Run the Web App
 
 ```bash
-python main.py
+python web.py
 ```
 
 The first tokenizer or embedding run may take time while Hugging Face downloads the selected model into the local `.cache/huggingface` directory.
-Flet's desktop client is also cached locally under `.runtime-home/.flet` so it does not need write access to `C:\Users\Admin\.flet`.
 
-## Build Android APK
+To use another port on Windows PowerShell:
 
-The Flet UI is responsive for phone screens. Install Flet and Android Studio with the Android SDK, then run:
-
-```bash
-build_android.bat
+```powershell
+$env:PORT="8081"
+python web.py
 ```
-
-Or run the equivalent command directly:
-
-```bash
-flet build apk
-```
-
-The included `build_android.bat` temporarily uses the lightweight `mobile_requirements.txt` list during packaging and restores the desktop `requirements.txt` afterward. The APK is generated under `build/apk`.
 
 ## Project Structure
 
 ```text
 .
-+-- main.py
++-- web.py
 +-- requirements.txt
 +-- .env
 +-- README.md
