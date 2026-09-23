@@ -40,6 +40,7 @@ class Database:
             port=self.settings.port,
             user=self.settings.user,
             password=self.settings.password,
+            ssl_disabled=False,
         )
 
     def _database_connection(self):
@@ -49,6 +50,7 @@ class Database:
             user=self.settings.user,
             password=self.settings.password,
             database=self.settings.database,
+            ssl_disabled=False,
         )
 
     def initialize(self) -> None:
