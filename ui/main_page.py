@@ -430,7 +430,7 @@ def build_main_page(page: ft.Page) -> None:
             set_auth_status(str(exc))
             page.update()
 
-    auth_action = ft.ElevatedButton("Login", on_click=auth_action_click, height=46)
+    auth_action = ft.FilledButton("Login", on_click=auth_action_click, height=46)
     auth_switch = ft.TextButton("Need an account? Register", on_click=switch_auth_mode)
     auth_panel = ft.Container(
         width=420,
@@ -551,7 +551,7 @@ def build_main_page(page: ft.Page) -> None:
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=8,
                         controls=[
-                            ft.ElevatedButton(
+                            ft.FilledButton(
                                 "Tokenize",
                                 icon=ft.Icons.PLAY_ARROW,
                                 on_click=tokenize_click,
